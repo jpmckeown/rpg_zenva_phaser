@@ -10,7 +10,7 @@ class Game extends Phaser.Scene {
       this.w1.setImmovable();
 
       // this.items = this.physics.add.image(80, 50, 'items', 4);
-      this.sword = new Player(this, 32, 32, 'items', 4);
+      this.sword = new Sword(this, 100, 32, 'items', 4);
       this.player = new Player(this, 32, 32, 'characters', 0);
 
       let characters = this.add.image(100, 300, 'characters', 2);
