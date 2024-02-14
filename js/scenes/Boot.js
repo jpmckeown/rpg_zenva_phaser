@@ -11,7 +11,7 @@ class Boot extends Phaser.Scene {
       this.load.audio('weaponSound', ['assets/audio/Pickup.wav']);
    }
    create() {
-      this.scene.start("Game");
+      this.scene.start("Title");
    }
 
 }
