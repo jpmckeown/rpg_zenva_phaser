@@ -1,8 +1,7 @@
 class UIbutton extends Phaser.GameObjects.Container {
    constructor(scene, x, y, key, hoverKey, text, targetCallback) {
       super(scene, x, y);
-      this.scene = scene;
-      Object.assign(this, { x, y, key, hoverKey, text, targetCallback });
+      Object.assign(this, { scene, x, y, key, hoverKey, text, targetCallback });
       this.createButton();
       scene.add.existing(this);
    }
@@ -22,12 +21,13 @@ class UIbutton extends Phaser.GameObjects.Container {
       this.btn1.on('pointerdown', () => {
          console.log('pointer down');
          this.targetCallback();
-         // this.scene.start('Game');
       });
+
       this.btn1.on('pointerover', () => {
          console.log('pointer over');
          this.btn1.setTexture(this.hoverKey);
       });
+
       this.btn1.on('pointerout', () => {
          console.log('pointer out');
          this.btn1.setTexture(this.key);
