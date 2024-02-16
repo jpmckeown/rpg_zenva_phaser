@@ -2,7 +2,7 @@ const config = {
    type: Phaser.AUTO,
    width: 800,
    height: 600,
-   scene: [Boot, Title, Game],
+   scene: [Boot, UI, Title, Game],
    // scene: {
    //    preload: preload,
    //    create: create,

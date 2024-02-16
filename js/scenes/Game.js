@@ -3,6 +3,10 @@ class Game extends Phaser.Scene {
       super('Game');
    }
 
+   init() {
+      this.scene.launch('UI');
+   }
+
    create() {
       const pickupSound = this.sound.add('weaponSound', { loop: false, volume: 0.5, delay: 0, mute: false });
 
@@ -10,8 +14,8 @@ class Game extends Phaser.Scene {
       this.w1.setImmovable();
 
       // this.items = this.physics.add.image(80, 50, 'items', 4);
-      this.sword = new Sword(this, 100, 32, 'items', 4);
-      this.player = new Player(this, 32, 32, 'characters', 0);
+      this.player = new Player(this, 150, 32, 'characters', 0);
+      this.sword = new Sword(this, 200, 32, 'items', 4);
       console.log(this.player.speed);
       let characters = this.add.image(100, 300, 'characters', 2);
 
