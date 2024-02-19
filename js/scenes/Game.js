@@ -5,6 +5,7 @@ class Game extends Phaser.Scene {
 
    init() {
       this.scene.launch('UI');
+      this.score = 0;
    }
 
    create() {
@@ -27,12 +28,12 @@ class Game extends Phaser.Scene {
    }
 
    makePlayer() {
-      this.player = new Player(this, 100, 100, 'characters', 0)
+      this.player = new Player(this, 30, 100, 'characters', 0)
          .setScale(2);
    }
 
    makeChests() {
-      this.chests = this.physics.add.group();
+      this.chests = this.physics.add.group({ runChildUpdate: true });
       this.chestCoords = [[100, 100], [200, 200], [300, 300], [400, 400]];
       let maxChests = 3;
       for (let i = 0; i < maxChests; i++) {
@@ -41,7 +42,7 @@ class Game extends Phaser.Scene {
    }
    spawnChest() {
       let loc = this.chestCoords[Math.floor(Math.random() * this.chestCoords.length)];
-      const chest = new Chest(this, loc[0], loc[1], 'items', 0);
+      let chest = new Chest(this, ...loc, 'items', 0);
       this.chests.add(chest);
    }
 
@@ -57,9 +58,12 @@ class Game extends Phaser.Scene {
    }
 
    collectChest(player, chest) {
+      console.log(player, chest);
       this.pickupSound.play();
+      this.score += chest.coins;
       chest.destroy();
-      this.events.emit('updateScore', chest.coins);
+      this.events.emit('updateScore', this.score);
       console.log('overlap item');
+      this.time.delayedCall(1000, this.spawnChest, [], this);
    }
 }
