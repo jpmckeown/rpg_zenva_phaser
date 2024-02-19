@@ -18,6 +18,7 @@ class Game extends Phaser.Scene {
       //let characters = this.add.image(100, 300, 'characters', 2);
 
       this.physics.add.collider(this.player, this.w1);
+
       this.physics.add.overlap(this.player, this.chests, this.collectChest, null, this);
 
       this.cursors = this.input.keyboard.createCursorKeys();
@@ -34,7 +35,7 @@ class Game extends Phaser.Scene {
 
    makeChests() {
       this.chests = this.physics.add.group({ runChildUpdate: true });
-      this.chestCoords = [[100, 100], [200, 200], [300, 300], [400, 400]];
+      this.chestCoords = [[100, 100], [200, 200], [300, 300], [400, 400], [200, 100], [300, 100], [400, 100], [200, 300], [200, 400]];
       let maxChests = 3;
       for (let i = 0; i < maxChests; i++) {
          this.spawnChest();
@@ -42,8 +43,17 @@ class Game extends Phaser.Scene {
    }
    spawnChest() {
       let loc = this.chestCoords[Math.floor(Math.random() * this.chestCoords.length)];
-      let chest = new Chest(this, ...loc, 'items', 0);
-      this.chests.add(chest);
+      let chest = this.chests.getFirstDead();
+      console.log(chest);
+      if (!chest) {
+         let chest = new Chest(this, ...loc, 'items', 0);
+         this.chests.add(chest);
+      }
+      else {
+         chest.setPosition(...loc);
+         chest.makeActive();
+      }
+
    }
 
    makeSwords() {
@@ -58,10 +68,9 @@ class Game extends Phaser.Scene {
    }
 
    collectChest(player, chest) {
-      console.log(player, chest);
       this.pickupSound.play();
       this.score += chest.coins;
-      chest.destroy();
+      chest.makeInactive();
       this.events.emit('updateScore', this.score);
       console.log('overlap item');
       this.time.delayedCall(1000, this.spawnChest, [], this);
