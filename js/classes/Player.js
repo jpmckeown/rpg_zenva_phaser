@@ -2,7 +2,7 @@ class Player extends Phaser.Physics.Arcade.Image {
    constructor(scene, x, y, key, frame) {
       super(scene, x, y, key, frame);
       this.scene = scene;
-      this.speed = 50;
+      this.speed = 120;
       this.scene.physics.world.enable(this);
       this.setImmovable(false);
       this.setCollideWorldBounds(true);

@@ -10,20 +10,14 @@ class Game extends Phaser.Scene {
    create() {
       this.pickupSound = this.sound.add('weaponSound', { loop: false, volume: 0.5, delay: 0, mute: false });
 
-      this.w1 = this.physics.add.image(100, 100, 'button1');
-      this.w1.setImmovable();
-      this.w2 = this.physics.add.image(400, 100, 'button2');
-
       this.makePlayer();
       this.makeChests();
-      this.makeSwords();
+      //this.makeSwords();
+      //this.makeWalls();
+      //let characters = this.add.image(100, 300, 'characters', 2);
 
       this.physics.add.collider(this.player, this.w1);
-      this.physics.add.overlap(this.player, this.sword, this.collectChest, null, this);
-
-      //    function (player, items) {
-      //    collectChest(this.player, this.sword)
-      // });
+      this.physics.add.overlap(this.player, this.chests, this.collectChest, null, this);
 
       this.cursors = this.input.keyboard.createCursorKeys();
    }
@@ -33,22 +27,33 @@ class Game extends Phaser.Scene {
    }
 
    makePlayer() {
-      this.player = new Player(this, 150, 32, 'characters', 0);
-
-      console.log(this.player.speed);
-      let characters = this.add.image(100, 300, 'characters', 2);
+      this.player = new Player(this, 100, 100, 'characters', 0)
+         .setScale(2);
    }
 
    makeChests() {
-      //this.chests
-      this.chest = new Chest(this, 200, 32, 'items', 0);
-      this.chest.coins = 20;
+      this.chests = this.physics.add.group();
+      this.chestCoords = [[100, 100], [200, 200], [300, 300], [400, 400]];
+      let maxChests = 3;
+      for (let i = 0; i < maxChests; i++) {
+         this.spawnChest();
+      }
+   }
+   spawnChest() {
+      let loc = this.chestCoords[Math.floor(Math.random() * this.chestCoords.length)];
+      const chest = new Chest(this, loc[0], loc[1], 'items', 0);
+      this.chests.add(chest);
    }
 
    makeSwords() {
-      // this.items = this.physics.add.image(80, 50, 'items', 4);
       this.sword = new Sword(this, 200, 32, 'items', 4);
       this.sword.coins = 20;
+   }
+
+   makeWalls() {
+      this.w1 = this.physics.add.image(100, 200, 'button1');
+      this.w1.setImmovable();
+      this.w2 = this.physics.add.image(400, 100, 'button2');
    }
 
    collectChest(player, chest) {
