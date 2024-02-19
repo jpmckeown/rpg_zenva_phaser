@@ -3,11 +3,6 @@ const config = {
    width: 800,
    height: 600,
    scene: [Boot, UI, Title, Game],
-   // scene: {
-   //    preload: preload,
-   //    create: create,
-   //    update: update
-   // },
    physics: {
       default: 'arcade',
       arcade: {
